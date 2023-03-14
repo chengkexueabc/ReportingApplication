@@ -1,0 +1,22 @@
+﻿<table>
+    <thead>
+      <tr>
+        <th>Product Code</th>
+        <th>Product Name</th>
+        <th>Gross Sales</th>
+        <th>Total Quantitye</th>
+      </tr>
+    </thead>
+    <tbody>
+    @foreach (var m in @Model)
+    {
+            <tr>
+                <td>m.ProductCode</td>
+                <td>m.ProductName</td>
+                <td>m.GrossSales</td>
+                <td>m.TotalQuantity</td>
+            </tr>
+    
+    }
+    </tbody>
+</table>

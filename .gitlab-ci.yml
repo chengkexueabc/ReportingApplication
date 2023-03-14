@@ -1,0 +1,52 @@
+stages:  
+  - build 
+  - testing 
+  - deploy 
+
+build:
+  stage: build
+  only:
+    - master
+  script:
+    - echo "Build start!"
+    - cd ProductWebAPI
+    - dotnet build
+    - cd..
+    - cd ReportingApplication
+    - dotnet build
+    - cd..
+    - echo "Build end!"
+  tags:
+    - shell
+
+testing:
+  stage: testing 
+  only:
+    - master
+  script:
+    - echo "Testing start!"
+    - dotnet test
+    - echo "Testing end!"
+  tags:
+    - shell
+
+deploy:
+  stage: deploy
+  before_script: 
+    - .\CloseDevWebApi.ps1
+    - .\CloseDevReport.ps1
+  only:
+    - master
+  script:
+    - echo "Deploy web api start!"
+    - cd ProductWebAPI
+    - dotnet publish -c Release -o Out/ProductWebAPI
+    - cd..
+    - echo "Deploy web api end!"
+    - echo "Deploy report start!"
+    - cd ReportingApplication
+    - dotnet publish -c Release -o Out/ReportingApplication
+    - cd..
+    - echo "Deploy report end!"
+  tags:
+    - shell
